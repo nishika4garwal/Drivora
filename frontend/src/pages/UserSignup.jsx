@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import axios from 'axios';
+import { UserDataContext } from '../context/UserContext';
 
 const UserSignup = () => {
 
@@ -10,36 +12,38 @@ const UserSignup = () => {
   const [ lastName, setLastName ] = useState('')
   const [ userData, setUserData ] = useState({})
 
-  // const navigate = useNavigate()
-  // const { user, setUser } = useContext(UserDataContext)
+  const navigate = useNavigate()
+  const { user, setUser } = React.useContext(UserDataContext)
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    // const newUser = {
-    //   fullname: {
-    //     firstname: firstName,
-    //     lastname: lastName
-    //   },
-    //   email: email,
-    //   password: password
-    // }
-    setUserData({ 
-      fullName: {
+    if (firstName.trim().length < 2 || lastName.trim().length < 2) {
+    alert('First and last name must be at least 2 characters.');
+    return;
+  }
+
+  if (password.length < 6) {
+    alert('Password must be at least 6 characters.');
+    return;
+  }
+
+    const newUser = {
+      fullname: {
         firstname: firstName,
         lastname: lastName
       },
       email: email,
       password: password
-    })
+    }
 
-    // const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
 
-    // if (response.status === 201) {
-    //   const data = response.data
-    //   setUser(data.user)
-    //   localStorage.setItem('token', data.token)
-    //   navigate('/home')
-    // }
+    if (response.status === 201) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home')
+    } 
 
     //console.log(userData)
 

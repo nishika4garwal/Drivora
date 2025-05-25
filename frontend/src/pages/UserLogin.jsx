@@ -1,21 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { UserDataContext } from '../context/UserContext'; // Import context if needed
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API calls
+
 
 const UserLogin = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const[userData, setUserData] = React.useState({});
+  const { user, setUser } = React.useContext(UserDataContext); // Access context if needed
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+
+  const submitHandler = async (e) => {
     e.preventDefault(); // Prevent form reload
-   setUserData({
+    const userData = {
       email: email,
       password: password
-    });
-    console.log(userData);
-    // console.log('Email:', email);
-    // console.log('Password:', password);
+    };
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
+    // console.log(userData);
+    
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem('token', data.token); 
+      navigate('/home');     
+    }
+
+
     setEmail(''); // Clear email input
     setPassword(''); // Clear password input
   };
