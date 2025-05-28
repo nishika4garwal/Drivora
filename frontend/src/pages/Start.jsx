@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 const Start = () => {
   return (
@@ -15,9 +16,7 @@ const Start = () => {
         <p className="text-sm text-gray-600 mb-5 text-center">
           Your journey begins here. Just click, ride and relax.
         </p>
-        <button className="w-full bg-black text-white py-3 rounded-xl text-base hover:bg-gray-900 transition">
-          Continue
-        </button>
+        <Link to='/login' className='flex items-center justify-center w-full bg-black text-white py-3 rounded-lg mt-5'>Continue</Link>
       </div>
     </div>
   );

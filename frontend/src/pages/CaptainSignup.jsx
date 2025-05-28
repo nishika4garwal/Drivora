@@ -36,7 +36,7 @@ const CaptainSignup = () => {
     return;
   }
 
-  if (!['car', 'auto', 'moto'].includes(vehicleType)) {
+  if (!['car', 'auto', 'bike'].includes(vehicleType)) {
     alert('Please select a valid vehicle type.');
     return;
   }
@@ -56,7 +56,7 @@ const CaptainSignup = () => {
         vehicleType: vehicleType
       }
     }
-
+    //console.log('Sending captainData:', captainData);
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
 
     if (response.status === 201) {
@@ -173,7 +173,7 @@ const CaptainSignup = () => {
             />
             <select
               required
-              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-0 py-0 border text-s placeholder:text-xl'
               value={vehicleType}
               onChange={(e) => {
                 setVehicleType(e.target.value)
@@ -182,7 +182,7 @@ const CaptainSignup = () => {
               <option value="" disabled>Select Vehicle Type</option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
-              <option value="moto">Moto</option>
+              <option value="bike">Bike</option>
             </select>
           </div>
 
